@@ -1,7 +1,7 @@
 import datetime
 import hashlib
 import os
-from typing import List, Tuple
+from typing import List
 
 from google.cloud import documentai_v1 as documentai
 from google.cloud import firestore, storage
@@ -86,8 +86,8 @@ def document_showcase(data=None, context: dict = None) -> str:
 
     # create unique hash id
     id = hashlib.sha256(
-        datetime.datetime.now(datetime.datetime.timezone.utc).isoformat().encode()
-    )
+        datetime.datetime.now(datetime.timezone.utc).isoformat().encode()
+    ).hexdigest()
 
     # write metadata to firestore
     doc_ref = initialize_firestore(

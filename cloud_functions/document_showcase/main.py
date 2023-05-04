@@ -7,9 +7,9 @@ from google.cloud import documentai_v1 as documentai
 from google.cloud import firestore, storage
 from utils.logging import logger
 
-project_id = os.environ["GCP_PROJECT"]
-processor_id_cds = os.environ["CDS_ID"]
-location = os.environ["LOCATION"]
+PROCESSOR_ID_CDS = os.environ["CDS_ID"]
+LOCATION = os.environ["LOCATION"]
+FIRESTORE_COLLECTION = os.environ["FIRESTORE_COLLECTION"]
 
 
 def initialize_firestore(
@@ -30,7 +30,7 @@ def initialize_firestore(
     }
 
     # Add a new doc in collection
-    doc_ref = firestore_client.collection("metadata").document(id)
+    doc_ref = firestore_client.collection(FIRESTORE_COLLECTION).document(id)
     doc_ref.set(metadata, merge=False)
 
     logger.info(f"created metadata for document {filename}")
@@ -46,7 +46,7 @@ def process_document(image_content: bytes, processor_id: str) -> List[str]:
     :return: List of entities and HumanReviewStatus
     """
     opts = {}
-    if location == "eu":
+    if LOCATION == "eu":
         opts = {"api_endpoint": "eu-documentai.googleapis.com"}
 
     client = documentai.DocumentProcessorServiceClient(client_options=opts)
@@ -100,7 +100,7 @@ def document_showcase(data=None, context: dict = None) -> str:
 
     # get split and class with CDS
     document_entities = process_document(
-        image_content=document, processor_id=processor_id_cds
+        image_content=document, processor_id=PROCESSOR_ID_CDS
     )
 
     logger.info(document_entities)

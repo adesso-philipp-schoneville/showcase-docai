@@ -25,9 +25,9 @@ resource "google_cloudfunctions_function" "document_showcase" {
 
   # Set the Cloud Function environment variables
   environment_variables = {
-    GCP_PROJECT       = var.project_id
     CDS_ID = google_document_ai_processor.cds_broad.id
     LOCATION = var.docai_location
+    FIRESTORE_COLLECTION = var.firestore_collection
   }
 
   # Set the Cloud Function trigger to execute when a PDF file is uploaded to the input bucket

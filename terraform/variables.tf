@@ -20,6 +20,11 @@ variable "suffix" {
   default = "7e2edc13"
 }
 
+variable "firestore_collection" {
+  type    = string
+  default = "docai_showcase"
+}
+
 variable "bucket_location" {
   type    = string
   default = "eu"

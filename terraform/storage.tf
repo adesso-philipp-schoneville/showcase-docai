@@ -51,16 +51,16 @@ resource "google_storage_bucket" "cds_broad" {
   force_destroy               = false
 }
 
-# CDC Zaehlerstand
+# CDE Anschreiben
 resource "google_storage_bucket" "cde_formular_anschreiben" {
-  name                        = "showcase_docai_cde_formular_anschreiben-${var.suffix}"
+  name                        = "showcase_docai_cde_anschreiben-${var.suffix}"
   location                    = var.bucket_location
   force_destroy               = false
 }
 
-# CDE Formular Widerruf
+# CDE Formular
 resource "google_storage_bucket" "cde_formular_formular" {
-  name                        = "showcase_docai_cde_formular_formular-${var.suffix}"
+  name                        = "showcase_docai_cde_formular-${var.suffix}"
   location                    = var.bucket_location
   force_destroy               = false
 }

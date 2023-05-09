@@ -44,16 +44,9 @@ resource "google_storage_bucket" "docai_data" {
 # Processor Buckets #
 ####################
 
-# CDC Widerruf
+# CDS Broad
 resource "google_storage_bucket" "cds_broad" {
   name                        = "showcase_docai_cds_broad-${var.suffix}"
-  location                    = var.bucket_location
-  force_destroy               = false
-}
-
-# CDC Broad
-resource "google_storage_bucket" "cdc_broad" {
-  name                        = "showcase_docai_cdc_broad-${var.suffix}"
   location                    = var.bucket_location
   force_destroy               = false
 }

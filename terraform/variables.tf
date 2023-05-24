@@ -34,3 +34,7 @@ variable "docai_location" {
   type    = string
   default = "eu"
 }
+
+variable "cds_processor_id" {
+  type = string
+}

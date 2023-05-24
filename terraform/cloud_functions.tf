@@ -25,7 +25,9 @@ resource "google_cloudfunctions_function" "document_showcase" {
 
   # Set the Cloud Function environment variables
   environment_variables = {
-    CDS_ID = google_document_ai_processor.cds_broad.id
+    CDS_ID = var.cds_processor_id
+    CDE_KFZ_FORMULAR = google_document_ai_processor.cde_formular_formular.id
+    CDE_ANSCHREIBEN = google_document_ai_processor.cde_formular_anschreiben.id
     LOCATION = var.docai_location
     FIRESTORE_COLLECTION = var.firestore_collection
   }

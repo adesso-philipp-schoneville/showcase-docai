@@ -1,0 +1,64 @@
+[
+    {
+        "textAnchor": {
+            "textSegments": [
+                {
+                    "endIndex": "416"
+                }
+            ]
+        },
+        "type": "Anschreiben",
+        "confidence": 0.7549416,
+        "pageAnchor": {
+            "pageRefs": [
+                {
+                    "confidence": 0.7549416
+                }
+            ]
+        }
+    },
+    {
+        "textAnchor": {
+            "textSegments": [
+                {
+                    "startIndex": "416",
+                    "endIndex": "4241"
+                }
+            ]
+        },
+        "type": "KFZ_Formular",
+        "confidence": 0.8002106,
+        "pageAnchor": {
+            "pageRefs": [
+                {
+                    "page": "1",
+                    "confidence": 0.81545603
+                },
+                {
+                    "page": "2",
+                    "confidence": 0.8002106
+                }
+            ]
+        }
+    },
+    {
+        "textAnchor": {
+            "textSegments": [
+                {
+                    "startIndex": "4241",
+                    "endIndex": "4757"
+                }
+            ]
+        },
+        "type": "Ausweis",
+        "confidence": 0.66896045,
+        "pageAnchor": {
+            "pageRefs": [
+                {
+                    "page": "3",
+                    "confidence": 0.66896045
+                }
+            ]
+        }
+    }
+]

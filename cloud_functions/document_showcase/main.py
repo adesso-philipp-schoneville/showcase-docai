@@ -4,8 +4,7 @@ import json
 import os
 import io
 from collections import defaultdict
-from pathlib import Path
-from typing import List
+from typing import List, Tuple
 
 import pikepdf
 from google.cloud import documentai_v1 as documentai
@@ -64,8 +63,8 @@ def save_entities_to_firestore(
         entity_confidence = entity.confidence
         entity_mention_text = entity.mention_text
 
-        # Get the occurrence count for the entity type
-        occurrence_count = len(entity_data[entity_type])
+        # Get the occurrence count for the entity type (needs to be string for Firestore)
+        occurrence_count = str(len(entity_data[entity_type]))
 
         # Save occurrence data under the entity type
         entity_data[entity_type][occurrence_count] = {
@@ -76,11 +75,13 @@ def save_entities_to_firestore(
     # Create the file name dictionary
     extracted_data = dict(entity_data)
 
-    # Print the dictionary structure
-    logger.info(f"{extracted_data}")
-
     # Update the Firestore document with the file data
-    result["extracted_data"] = extracted_data
+    # Note that entity_name_page can be extracted like this because
+    # there is only one key in the dictionary
+    entity_name_page = next(iter(result))
+    result[entity_name_page]["extracted_data"] = extracted_data
+    # Print the dictionary structure
+    logger.info(f"Updating Firestore with: {result}")
     doc_ref.update(result)
 
 
@@ -95,9 +96,7 @@ def process_document_cds(
             data = json.load(f)
         return data
 
-    response = process_document_cds(
-        image_content=image_content, processor_id=processor_id
-    )
+    response = process_document(image_content=image_content, processor_id=processor_id)
     return [MessageToDict(entity._pb) for entity in response]
 
 
@@ -128,10 +127,9 @@ def process_document(image_content: bytes, processor_id: str) -> List[str]:
 
 def extract_with_cde(
     cds_response: list,
-    pdf_file: str,
-    output_folder: str,
-    doc_ref: firestore.DocumentReference,
-) -> None:
+    document: bytes,
+    file_name: str,
+) -> List[Tuple[list, dict]]:
     """
     Split the PDF file according to the entities specified in the dict and request CDE.
 
@@ -140,10 +138,9 @@ def extract_with_cde(
         pdf_file (str): Path to the PDF file.
         output_folder (str): Path to the output folder where split PDFs will be saved.
     """
-    # Create the output folder if it doesn't exist
-    Path(output_folder).mkdir(parents=True, exist_ok=True)
 
     # Iterate over each entity in the JSON data
+    results = []
     for entity in tqdm(cds_response, desc="Splitting PDF"):
         entity_type = entity["type"]
         page_refs = entity["pageAnchor"]["pageRefs"]
@@ -160,16 +157,21 @@ def extract_with_cde(
         except KeyError:
             end_page = 0
 
+        # Create a BytesIO object and write the byte data
+        document_io = io.BytesIO()
+        document_io.write(document)
+        document_io.seek(0)  # Reset the stream position to the beginning
+
         # Split the PDF and save the entity-specific pages
-        with pikepdf.Pdf.open(pdf_file) as pdf:
+        with pikepdf.Pdf.open(document_io) as pdf:
             output_pdf = pikepdf.Pdf.new()
 
             for page_num in range(start_page, end_page + 1):
                 print(f"{entity_type} - page {page_num}")
                 output_pdf.pages.append(pdf.pages[page_num])
 
-            entity_name_pages = f"{entity_type}_{start_page}-{end_page}"
-            entity_desc = f"{pdf_file}: {entity_type} (pages {start_page}-{end_page})"
+            entity_name_pages = f"{entity_type}_{start_page}_{end_page}"
+            entity_desc = f"{file_name}: {entity_type} (pages {start_page}-{end_page})"
 
             # If there is a CDE processor for this entity type, extract
             # content using the CDE processor
@@ -184,8 +186,7 @@ def extract_with_cde(
                 processor_id = CDE_PROCESSORS[entity_type]
             except KeyError:
                 logger.info(f"{entity_desc} does not have a CDE processor.")
-                result["extracted_data"] = {}
-                doc_ref.update(result)
+                cde_entities = []
             else:
                 pdf_bytes = io.BytesIO()
                 output_pdf.save(pdf_bytes)
@@ -194,11 +195,8 @@ def extract_with_cde(
                 logger.info(f"Sending request to {processor_id} for {entity_desc}")
                 cde_entities = process_document(pdf_bytes.read(), processor_id)
 
-                save_entities_to_firestore(
-                    cde_entities=cde_entities, doc_ref=doc_ref, result=result
-                )
-
-            doc_ref.update({"status": "cde_processed"})
+            results.append((cde_entities, result))
+    return results
 
 
 def document_showcase(data=None, context: dict = None) -> str:
@@ -242,14 +240,24 @@ def document_showcase(data=None, context: dict = None) -> str:
     document_entities = process_document_cds(
         image_content=document, processor_id=PROCESSOR_ID_CDS
     )
-
-    logger.info(str(document_entities).replace("\n", ""))
-
     doc_ref.update({"status": "cds_processed"})
 
     # extract values for each page
+    results = extract_with_cde(
+        cds_response=document_entities,
+        document=document,
+        file_name=filename,
+    )
+
+    for cde_entities, result in results:
+        save_entities_to_firestore(
+            cde_entities=cde_entities, doc_ref=doc_ref, result=result
+        )
+    doc_ref.update({"status": "cde_processed"})
 
     # remove file
     source_blob.delete()
 
+    logger.info(f"{filename} successfully processed.")
+    doc_ref.update({"status": "done"})
     return "Success"

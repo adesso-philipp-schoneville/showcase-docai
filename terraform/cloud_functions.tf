@@ -38,3 +38,36 @@ resource "google_cloudfunctions_function" "document_showcase" {
     resource   = google_storage_bucket.input.name
   }
 }
+
+# Data Ingestion
+
+# ZIP archives of code
+data "archive_file" "showcase_data_ingestion" {
+  type        = "zip"
+  source_dir  = "../cloud_functions/showcase_data_ingestion"
+  output_path = "../cf_archives/showcase_data_ingestion.zip"
+}
+
+# Upload the function source code to the Cloud Storage bucket
+resource "google_storage_bucket_object" "showcase_data_ingestion" {
+  name   = "input-function.${data.archive_file.showcase_data_ingestion.output_md5}.zip"
+  bucket = google_storage_bucket.function_archives.name
+  source = data.archive_file.showcase_data_ingestion.output_path
+}
+
+# Cloud Function - Data Ingestion
+resource "google_cloudfunctions_function" "showcase_data_ingestion" {
+  name                  = "showcase-data-ingestion"
+  description           = "Ingests sample data into Firestore"
+  runtime               = "python310"
+  entry_point           = "showcase_data_ingestion"
+  trigger_http          = true
+  source_archive_bucket = google_storage_bucket.function_archives.name
+  source_archive_object = google_storage_bucket_object.showcase_data_ingestion.name
+
+  # Set the Cloud Function environment variables
+  environment_variables = {
+    LOCATION = var.docai_location
+    FIRESTORE_COLLECTION = var.firestore_collection
+  }
+}

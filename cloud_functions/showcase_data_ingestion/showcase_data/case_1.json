@@ -1,0 +1,13 @@
+{
+    "0": {
+        "class": "Anschreiben",
+        "start_page": 0,
+        "end_page": 0,
+        "extracted_data": {
+            "Nachname": {
+                "confidence": 0.8,
+                "value": "Schmidt"
+            }
+        }
+    }
+}

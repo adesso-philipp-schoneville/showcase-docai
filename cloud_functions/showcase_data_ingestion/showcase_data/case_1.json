@@ -1,13 +1,40 @@
 {
-    "0": {
-        "class": "Anschreiben",
-        "start_page": 0,
-        "end_page": 0,
-        "extracted_data": {
-            "Nachname": {
-                "confidence": 0.8,
-                "value": "Schmidt"
+    "result": [
+        {
+            "class": "Anschreiben",
+            "document_index": 0,
+            "start_page": 0,
+            "end_page": 0,
+            "extracted_data": {
+                "Nachname": {
+                    "confidence": 1.0,
+                    "value": "Schmidt"
+                }
+            }
+        },
+        {
+            "class": "KFZ_Formular",
+            "document_index": 1,
+            "start_page": 1,
+            "end_page": 2,
+            "extracted_data": {
+                "Vorname": {
+                    "confidence": 1.0,
+                    "value": "Hans"
+                }
+            }
+        },
+        {
+            "class": "Ausweis",
+            "document_index": 2,
+            "start_page": 3,
+            "end_page": 3,
+            "extracted_data": {
+                "Vorname": {
+                    "confidence": 1.0,
+                    "value": "Hans"
+                }
             }
         }
-    }
+    ]
 }

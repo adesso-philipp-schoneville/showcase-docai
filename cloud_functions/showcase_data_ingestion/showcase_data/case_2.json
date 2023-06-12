@@ -1,0 +1,112 @@
+{
+    "result": [
+        {
+            "class": "Anschreiben",
+            "document_index": 0,
+            "start_page": 0,
+            "end_page": 0,
+            "extracted_data": {
+                "Vorname": {
+                    "confidence": 1.0,
+                    "value": "Charlotte"
+                },
+                "Nachname": {
+                    "confidence": 1.0,
+                    "value": "Himmel"
+                },
+                "Adresse": {
+                    "confidence": 1.0,
+                    "value": "Woltmannweg 16, 12209 Berlin"
+                },
+                "Kennzeichen": {
+                    "confidence": 1.0,
+                    "value": "B-DF 4483"
+                },
+                "Betreff": {
+                    "confidence": 1.0,
+                    "value": "Meldung des Verlusts meines KFZ-Kennzeichens"
+                },
+                "Zeichen": {
+                    "confidence": 1.0,
+                    "value": "B10-235-00"
+                },
+                "Email": {
+                    "confidence": 1.0,
+                    "value": "chimmel@gmail.com"
+                },
+                "Telefon": {
+                    "confidence": 1.0,
+                    "value": "+49 123 321 4444"
+                }
+            }
+        },
+        {
+            "class": "KFZ_Formular",
+            "document_index": 1,
+            "start_page": 1,
+            "end_page": 2,
+            "extracted_data": {
+                "Vorname": {
+                    "confidence": 1.0,
+                    "value": "Charlotte"
+                },
+                "Nachname": {
+                    "confidence": 1.0,
+                    "value": "Himmel"
+                },
+                "Adresse": {
+                    "confidence": 1.0,
+                    "value": "12209 Berlin, Woltmannweg 16"
+                },
+                "Kennzeichen": {
+                    "confidence": 1.0,
+                    "value": "B-DF 4483"
+                },
+                "Kennzeichen_vorne": {
+                    "confidence": 1.0,
+                    "value": ""
+                },
+                "Kennzeichen_hinten": {
+                    "confidence": 1.0,
+                    "value": "X"
+                }
+            }
+        },
+        {
+            "class": "Ausweis",
+            "document_index": 2,
+            "start_page": 3,
+            "end_page": 3,
+            "extracted_data": {
+                "Vorname": {
+                    "confidence": 1.0,
+                    "value": "ERIKA"
+                },
+                "Geburtsname": {
+                    "confidence": 1.0,
+                    "value": "GABLER"
+                },
+                "Nachname": {
+                    "confidence": 1.0,
+                    "value": "MUSTERMANN"
+                },
+                "Ausweisnummer": {
+                    "confidence": 1.0,
+                    "value": "LZ6311T47"
+                },
+                "Geburtstag": {
+                    "confidence": 1.0,
+                    "value": "12.08.1983"
+                },
+                "Staatsangehoerigkeit": {
+                    "confidence": 1.0,
+                    "value": "DEUTSCH"
+                },
+                "Geburtsort": {
+                    "confidence": 1.0,
+                    "value": "BERLIN"
+                }
+            }
+        }
+    ]
+}

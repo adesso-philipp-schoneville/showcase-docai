@@ -71,3 +71,7 @@ resource "google_cloudfunctions_function" "showcase_data_ingestion" {
     FIRESTORE_COLLECTION = var.firestore_collection
   }
 }
+
+output "cf_data_ingestion_endpoint" {
+  value = google_cloudfunctions_function.showcase_data_ingestion.https_trigger_url
+}

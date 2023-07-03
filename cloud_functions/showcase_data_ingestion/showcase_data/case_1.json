@@ -6,9 +6,37 @@
             "start_page": 0,
             "end_page": 0,
             "extracted_data": {
+                "Vorname": {
+                    "confidence": 1.0,
+                    "value": "Nadine"
+                },
                 "Nachname": {
                     "confidence": 1.0,
                     "value": "Schmidt"
+                },
+                "Adresse": {
+                    "confidence": 1.0,
+                    "value": "Prenzlauer Allee 143, 10409 Berlin"
+                },
+                "Kennzeichen": {
+                    "confidence": 1.0,
+                    "value": "B-DA 5678"
+                },
+                "Betreff": {
+                    "confidence": 1.0,
+                    "value": "Meldung des Verlusts meines KFZ-Kennzeichens"
+                },
+                "Zeichen": {
+                    "confidence": 1.0,
+                    "value": "TS-23526248"
+                },
+                "Email": {
+                    "confidence": 1.0,
+                    "value": "nad.sch@web.de"
+                },
+                "Telefon": {
+                    "confidence": 1.0,
+                    "value": "+49 122 4337 8941"
                 }
             }
         },
@@ -20,7 +48,27 @@
             "extracted_data": {
                 "Vorname": {
                     "confidence": 1.0,
-                    "value": "Hans"
+                    "value": "Nadine"
+                },
+                "Nachname": {
+                    "confidence": 1.0,
+                    "value": "Schmidt"
+                },
+                "Adresse": {
+                    "confidence": 1.0,
+                    "value": "10409 Berlin, Prenzlauer Allee 143"
+                },
+                "Kennzeichen": {
+                    "confidence": 1.0,
+                    "value": "B-DA 5678"
+                },
+                "Kennzeichen_vorne": {
+                    "confidence": 1.0,
+                    "value": "X"
+                },
+                "Kennzeichen_hinten": {
+                    "confidence": 1.0,
+                    "value": "X"
                 }
             }
         },
@@ -32,7 +80,31 @@
             "extracted_data": {
                 "Vorname": {
                     "confidence": 1.0,
-                    "value": "Hans"
+                    "value": "ERIKA"
+                },
+                "Geburtsname": {
+                    "confidence": 1.0,
+                    "value": "GABLER"
+                },
+                "Nachname": {
+                    "confidence": 1.0,
+                    "value": "MUSTERMANN"
+                },
+                "Ausweisnummer": {
+                    "confidence": 1.0,
+                    "value": "LZ6311T47"
+                },
+                "Geburtstag": {
+                    "confidence": 1.0,
+                    "value": "12.08.1983"
+                },
+                "Staatsangehoerigkeit": {
+                    "confidence": 1.0,
+                    "value": "DEUTSCH"
+                },
+                "Geburtsort": {
+                    "confidence": 1.0,
+                    "value": "BERLIN"
                 }
             }
         }
